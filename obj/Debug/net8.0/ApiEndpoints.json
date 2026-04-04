@@ -1,0 +1,18 @@
+[
+  {
+    "ContainingType": "SmartLockSystem.Controllers.SmartLockController",
+    "Method": "SendCommand",
+    "RelativePath": "api/SmartLock/Command",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "request",
+        "Type": "SmartLockSystem.Models.LockCommandRequest",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  }
+]
