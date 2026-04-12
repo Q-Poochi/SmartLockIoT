@@ -1,3 +1,12 @@
+C:\Project\IoT\SmartLockSystem\SmartLockSystem\obj\Debug\net8.0\SmartLockSystem.csproj.AssemblyReference.cache
+C:\Project\IoT\SmartLockSystem\SmartLockSystem\obj\Debug\net8.0\rpswa.dswa.cache.json
+C:\Project\IoT\SmartLockSystem\SmartLockSystem\obj\Debug\net8.0\SmartLockSystem.GeneratedMSBuildEditorConfig.editorconfig
+C:\Project\IoT\SmartLockSystem\SmartLockSystem\obj\Debug\net8.0\SmartLockSystem.AssemblyInfoInputs.cache
+C:\Project\IoT\SmartLockSystem\SmartLockSystem\obj\Debug\net8.0\SmartLockSystem.AssemblyInfo.cs
+C:\Project\IoT\SmartLockSystem\SmartLockSystem\obj\Debug\net8.0\SmartLockSystem.csproj.CoreCompileInputs.cache
+C:\Project\IoT\SmartLockSystem\SmartLockSystem\obj\Debug\net8.0\SmartLockSystem.MvcApplicationPartsAssemblyInfo.cs
+C:\Project\IoT\SmartLockSystem\SmartLockSystem\obj\Debug\net8.0\SmartLockSystem.MvcApplicationPartsAssemblyInfo.cache
+C:\Project\IoT\SmartLockSystem\SmartLockSystem\obj\Debug\net8.0\SmartLockSystem.sourcelink.json
 C:\Project\IoT\SmartLockSystem\SmartLockSystem\bin\Debug\net8.0\appsettings.Development.json
 C:\Project\IoT\SmartLockSystem\SmartLockSystem\bin\Debug\net8.0\appsettings.json
 C:\Project\IoT\SmartLockSystem\SmartLockSystem\bin\Debug\net8.0\SmartLockSystem.staticwebassets.endpoints.json
@@ -33,6 +42,7 @@ C:\Project\IoT\SmartLockSystem\SmartLockSystem\bin\Debug\net8.0\Microsoft.OpenAp
 C:\Project\IoT\SmartLockSystem\SmartLockSystem\bin\Debug\net8.0\Microsoft.SqlServer.Server.dll
 C:\Project\IoT\SmartLockSystem\SmartLockSystem\bin\Debug\net8.0\Microsoft.Win32.SystemEvents.dll
 C:\Project\IoT\SmartLockSystem\SmartLockSystem\bin\Debug\net8.0\Mono.TextTemplating.dll
+C:\Project\IoT\SmartLockSystem\SmartLockSystem\bin\Debug\net8.0\MQTTnet.dll
 C:\Project\IoT\SmartLockSystem\SmartLockSystem\bin\Debug\net8.0\Swashbuckle.AspNetCore.Swagger.dll
 C:\Project\IoT\SmartLockSystem\SmartLockSystem\bin\Debug\net8.0\Swashbuckle.AspNetCore.SwaggerGen.dll
 C:\Project\IoT\SmartLockSystem\SmartLockSystem\bin\Debug\net8.0\Swashbuckle.AspNetCore.SwaggerUI.dll
@@ -114,14 +124,6 @@ C:\Project\IoT\SmartLockSystem\SmartLockSystem\bin\Debug\net8.0\runtimes\win\lib
 C:\Project\IoT\SmartLockSystem\SmartLockSystem\bin\Debug\net8.0\runtimes\win\lib\net6.0\System.Runtime.Caching.dll
 C:\Project\IoT\SmartLockSystem\SmartLockSystem\bin\Debug\net8.0\runtimes\win\lib\net6.0\System.Security.Cryptography.ProtectedData.dll
 C:\Project\IoT\SmartLockSystem\SmartLockSystem\bin\Debug\net8.0\runtimes\win\lib\net6.0\System.Windows.Extensions.dll
-C:\Project\IoT\SmartLockSystem\SmartLockSystem\obj\Debug\net8.0\SmartLockSystem.csproj.AssemblyReference.cache
-C:\Project\IoT\SmartLockSystem\SmartLockSystem\obj\Debug\net8.0\rpswa.dswa.cache.json
-C:\Project\IoT\SmartLockSystem\SmartLockSystem\obj\Debug\net8.0\SmartLockSystem.GeneratedMSBuildEditorConfig.editorconfig
-C:\Project\IoT\SmartLockSystem\SmartLockSystem\obj\Debug\net8.0\SmartLockSystem.AssemblyInfoInputs.cache
-C:\Project\IoT\SmartLockSystem\SmartLockSystem\obj\Debug\net8.0\SmartLockSystem.AssemblyInfo.cs
-C:\Project\IoT\SmartLockSystem\SmartLockSystem\obj\Debug\net8.0\SmartLockSystem.csproj.CoreCompileInputs.cache
-C:\Project\IoT\SmartLockSystem\SmartLockSystem\obj\Debug\net8.0\SmartLockSystem.MvcApplicationPartsAssemblyInfo.cs
-C:\Project\IoT\SmartLockSystem\SmartLockSystem\obj\Debug\net8.0\SmartLockSystem.MvcApplicationPartsAssemblyInfo.cache
 C:\Project\IoT\SmartLockSystem\SmartLockSystem\obj\Debug\net8.0\rjimswa.dswa.cache.json
 C:\Project\IoT\SmartLockSystem\SmartLockSystem\obj\Debug\net8.0\rjsmrazor.dswa.cache.json
 C:\Project\IoT\SmartLockSystem\SmartLockSystem\obj\Debug\net8.0\rjsmcshtml.dswa.cache.json
