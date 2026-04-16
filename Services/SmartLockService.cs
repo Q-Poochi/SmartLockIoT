@@ -1,9 +1,8 @@
 ﻿using MQTTnet;
 using MQTTnet.Client;
-using MQTTnet.Formatter; // Không có dòng này là không lấy được V5 đâu
 using SmartLockSystem.Models;
+
 using SmartLockSystem.Services;
-using System.Text.Json;
 
 namespace SmartLockSystem.Services;
 
@@ -17,21 +16,15 @@ public class SmartLockService : ISmartLockService
         var factory = new MqttFactory();
         _mqttClient = factory.CreateMqttClient();
 
-        // Cập nhật Meta: Kết nối HiveMQ bằng chuẩn MQTT v5
+        // 1. CẬP NHẬT TRẠM HIVEMQ CLOUD (Giáp SSL và Thông tin đăng nhập)
         _mqttOptions = new MqttClientOptionsBuilder()
-            .WithTcpServer("broker.hivemq.com", 1883)
-            .WithProtocolVersion(MqttProtocolVersion.V500) // <==== CHÍNH LÀ NÓ! Đẳng cấp V5.
+            // Lưu ý: Cổng chuẩn của MQTT TLS thường là 8883 (Dân Python bên kia code 8884 coi chừng nhầm sang WebSockets nhé! Nên cứ để mặc định 8883 cho C# TCP là an toàn nhất)
+            .WithTcpServer("778192bafdb24249954652d9ae05565d.s1.eu.hivemq.cloud", 8883)
+            .WithCredentials("esp32", "Aabc12345") 
+            .WithTlsOptions(o => o.UseTls())      
             .WithClientId($"SmartLockApi_{Guid.NewGuid()}")
-            .WithCleanSession(true) // Đám mây không lưu rác sau khi sập
+            .WithCleanSession(true)
             .Build();
-
-        // Meta .NET 8: Tự động sơ cứu khi đứt cáp mạng mập cắn
-        _mqttClient.DisconnectedAsync += async e =>
-        {
-            Console.WriteLine("[MQTT v5.0] Oops! Mất mạng trạm trung chuyển! Đang thử nối lại...");
-            await Task.Delay(TimeSpan.FromSeconds(5));
-            await _mqttClient.ConnectAsync(_mqttOptions, CancellationToken.None);
-        };
     }
 
     public async Task<bool> SendLockCommandAsync(LockCommandRequest request)
@@ -40,37 +33,31 @@ public class SmartLockService : ISmartLockService
         {
             if (!_mqttClient.IsConnected)
             {
-                Console.WriteLine("[MQTT v5.0] Đang khởi động đường truyền tới HiveMQ...");
+                Console.WriteLine("[MQTT] Đang kết nối tới HiveMQ Cloud...");
                 await _mqttClient.ConnectAsync(_mqttOptions, CancellationToken.None);
-                Console.WriteLine("[MQTT v5.0] Trạm sẵn sàng!");
+                Console.WriteLine("[MQTT] Connected Thành Công!");
             }
 
-            var payload = new
-            {
-                command = request.Unlock ? "UNLOCK" : "LOCK",
-                timestamp = DateTime.UtcNow,
-                sender = "Backend API"
-            };
+            // 2. KHÔNG DÙNG JSON NỮA! Chỉ gửi chữ "ON" hoặc "OFF" theo đúng ý Python bên kia.
+            string strPayload = request.Unlock ? "ON" : "OFF";
 
-            string jsonPayload = JsonSerializer.Serialize(payload);
-            string topic = $"my_smartlock_v1/{request.DeviceId}/command";
+            // 3. FIX CỨNG TOPIC LÀ "esp32/led/control"
+            string targetTopic = "esp32/led";
 
-            // Đóng gói bản tin chuẩn V5
             var applicationMessage = new MqttApplicationMessageBuilder()
-                .WithTopic(topic)
-                .WithPayload(jsonPayload)
+                .WithTopic(targetTopic)
+                .WithPayload(strPayload) 
                 .WithQualityOfServiceLevel(MQTTnet.Protocol.MqttQualityOfServiceLevel.AtLeastOnce)
-                // Các tính năng siêu cấp của v5 như User Properties có thể ráp thêm vào đây
                 .Build();
 
             await _mqttClient.PublishAsync(applicationMessage, CancellationToken.None);
 
-            Console.WriteLine($"[MQTT v5.0] Bắn tín hiệu -> {topic}: {jsonPayload}");
+            Console.WriteLine($"[Đã bắn thành công] -> [{targetTopic}] nội dung: {strPayload}");
             return true;
         }
         catch (Exception ex)
         {
-            Console.WriteLine($"[MQTT Báo Động] Lỗi cmnr: {ex.Message}");
+            Console.WriteLine($"[LỖI MQTT] Văng mất mạng rồi: {ex.Message}");
             return false;
         }
     }
