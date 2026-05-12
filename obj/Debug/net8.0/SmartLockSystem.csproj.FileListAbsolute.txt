@@ -139,3 +139,4 @@ C:\Project\IoT\SmartLockSystem\SmartLockSystem\obj\Debug\net8.0\refint\SmartLock
 C:\Project\IoT\SmartLockSystem\SmartLockSystem\obj\Debug\net8.0\SmartLockSystem.pdb
 C:\Project\IoT\SmartLockSystem\SmartLockSystem\obj\Debug\net8.0\SmartLockSystem.genruntimeconfig.cache
 C:\Project\IoT\SmartLockSystem\SmartLockSystem\obj\Debug\net8.0\ref\SmartLockSystem.dll
+C:\Project\IoT\SmartLockSystem\SmartLockSystem\bin\Debug\net8.0\SmartLockSystem.staticwebassets.runtime.json

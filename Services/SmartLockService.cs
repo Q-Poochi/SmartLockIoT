@@ -16,9 +16,8 @@ public class SmartLockService : ISmartLockService
         var factory = new MqttFactory();
         _mqttClient = factory.CreateMqttClient();
 
-        // 1. CẬP NHẬT TRẠM HIVEMQ CLOUD (Giáp SSL và Thông tin đăng nhập)
+      
         _mqttOptions = new MqttClientOptionsBuilder()
-            // Lưu ý: Cổng chuẩn của MQTT TLS thường là 8883 (Dân Python bên kia code 8884 coi chừng nhầm sang WebSockets nhé! Nên cứ để mặc định 8883 cho C# TCP là an toàn nhất)
             .WithTcpServer("778192bafdb24249954652d9ae05565d.s1.eu.hivemq.cloud", 8883)
             .WithCredentials("esp32", "Aabc12345") 
             .WithTlsOptions(o => o.UseTls())      
