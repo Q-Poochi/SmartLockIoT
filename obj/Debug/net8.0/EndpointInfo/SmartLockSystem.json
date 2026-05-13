@@ -36,6 +36,18 @@
         }
       }
     },
+    "/api/SmartLock/status": {
+      "get": {
+        "tags": [
+          "SmartLock"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
     "/api/SmartLock/verify": {
       "post": {
         "tags": [

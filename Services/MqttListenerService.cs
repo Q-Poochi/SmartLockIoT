@@ -16,16 +16,19 @@ public class MqttListenerService : BackgroundService
     private readonly IConfiguration _config;
     private readonly IServiceProvider _serviceProvider;
     private readonly ISmartLockService _smartLockService;
+    private readonly LockStatusService _lockStatus;
     private IMqttClient _mqttClient;
 
     public MqttListenerService(
         IConfiguration config,
         IServiceProvider serviceProvider,
-        ISmartLockService smartLockService)
+        ISmartLockService smartLockService,
+        LockStatusService lockStatus)
     {
         _config = config;
         _serviceProvider = serviceProvider;
         _smartLockService = smartLockService;
+        _lockStatus = lockStatus;
     }
 
     protected override async Task ExecuteAsync(CancellationToken stoppingToken)
@@ -131,6 +134,9 @@ public class MqttListenerService : BackgroundService
                 var unlockReq = new LockCommandRequest { DeviceId = "test_door", Unlock = true };
                 await _smartLockService.SendLockCommandAsync(unlockReq);
 
+                // 1.5 Cập nhật trạng thái real-time cho Frontend
+                _lockStatus.SetUnlocked(user.FullName);
+
                 // 2. Ghi lịch sử
                 db.AccessLogs.Add(new AccessLog
                 {
@@ -140,7 +146,7 @@ public class MqttListenerService : BackgroundService
                     Message = $"{user.FullName} đã mở cửa (confidence: {confidence:P1})",
                     UserId = user.Id,
                     DeviceId = 1,
-                    Timestamp = DateTime.UtcNow
+                    Timestamp = DateTime.Now
                 });
                 await db.SaveChangesAsync();
 
@@ -205,7 +211,7 @@ public class MqttListenerService : BackgroundService
         db.AccessLogs.Add(new AccessLog
         {
             AccessCode = code, AccessType = type, IsSuccess = success,
-            Message = message, Timestamp = DateTime.UtcNow
+            Message = message, Timestamp = DateTime.Now
         });
         await db.SaveChangesAsync();
     }

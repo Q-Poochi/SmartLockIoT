@@ -27,6 +27,16 @@
   },
   {
     "ContainingType": "SmartLockSystem.Controllers.SmartLockController",
+    "Method": "GetStatus",
+    "RelativePath": "api/SmartLock/status",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "SmartLockSystem.Controllers.SmartLockController",
     "Method": "GetUsers",
     "RelativePath": "api/SmartLock/users",
     "HttpMethod": "GET",

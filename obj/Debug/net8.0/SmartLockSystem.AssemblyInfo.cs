@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("SmartLockSystem")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+e1c61f2879e19e946915b88eab6c437565216113")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+308467fcca8edff27de7213a5448220cd3e70a5f")]
 [assembly: System.Reflection.AssemblyProductAttribute("SmartLockSystem")]
 [assembly: System.Reflection.AssemblyTitleAttribute("SmartLockSystem")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

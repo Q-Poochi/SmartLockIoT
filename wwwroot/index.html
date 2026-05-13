@@ -342,5 +342,37 @@ async function loadMiniLogs() {
 }
 loadMiniLogs();
 setInterval(loadMiniLogs, 5000);
+
+// === REAL-TIME STATUS SYNC ===
+async function syncStatus() {
+    try {
+        const res = await fetch('/api/SmartLock/status');
+        const data = await res.json();
+        const lockIcon = document.querySelector('#btnUnlock .material-symbols-outlined');
+        const btnText = document.querySelector('#btnUnlock .font-data-display');
+        const statusText = document.getElementById('statusText');
+        const btn = document.getElementById('btnUnlock');
+
+        if (data.isLocked) {
+            lockIcon.innerText = 'lock';
+            btnText.innerText = 'UNLOCK';
+            statusText.innerText = 'LOCKED';
+            statusText.style.color = '';
+            btn.style.borderColor = '';
+            btn.style.boxShadow = '';
+            isLocked = true;
+        } else {
+            lockIcon.innerText = 'lock_open';
+            btnText.innerText = 'LOCK';
+            statusText.innerText = 'UNLOCKED by ' + data.lastUser;
+            statusText.style.color = '#00f3ff';
+            btn.style.borderColor = 'rgba(0, 243, 255, 0.8)';
+            btn.style.boxShadow = '0 0 60px rgba(0, 243, 255, 0.4)';
+            isLocked = false;
+        }
+    } catch(e) {}
+}
+syncStatus();
+setInterval(syncStatus, 2000);
 </script>
 </body></html>

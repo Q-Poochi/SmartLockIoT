@@ -12,11 +12,13 @@ namespace SmartLockSystem.Controllers
     {
         private readonly ISmartLockService _smartLockService;
         private readonly SmartLockDbContext _db;
+        private readonly LockStatusService _lockStatus;
 
-        public SmartLockController(ISmartLockService smartLockService, SmartLockDbContext db)
+        public SmartLockController(ISmartLockService smartLockService, SmartLockDbContext db, LockStatusService lockStatus)
         {
             _smartLockService = smartLockService;
             _db = db;
+            _lockStatus = lockStatus;
         }
         
         [HttpPost("Command")]
@@ -30,9 +32,27 @@ namespace SmartLockSystem.Controllers
             var isSuccess = await _smartLockService.SendLockCommandAsync(request);
             if (isSuccess)
             {
+                // Cập nhật trạng thái real-time
+                if (request.Unlock)
+                    _lockStatus.SetUnlocked("Web User");
+                else
+                    _lockStatus.SetLocked();
+
                 return Ok(new {Message= "Command sent successfully", status=true });
             }
             return StatusCode (500, "Error sending command");
+        }
+
+        // API trạng thái real-time cho Frontend polling
+        [HttpGet("status")]
+        public IActionResult GetStatus()
+        {
+            return Ok(new
+            {
+                isLocked = _lockStatus.IsLocked,
+                lastUser = _lockStatus.LastUser,
+                lastChanged = _lockStatus.LastChanged
+            });
         }
 
         [HttpPost("verify")]
@@ -57,7 +77,7 @@ namespace SmartLockSystem.Controllers
                     Message = $"{user.FullName} đã mở cửa thành công",
                     UserId = user.Id,
                     DeviceId = 1,
-                    Timestamp = DateTime.UtcNow
+                    Timestamp = DateTime.Now
                 });
                 await _db.SaveChangesAsync();
 
@@ -72,7 +92,7 @@ namespace SmartLockSystem.Controllers
                     AccessType = request.Type,
                     IsSuccess = false,
                     Message = "Truy cập bị từ chối - Mã không hợp lệ",
-                    Timestamp = DateTime.UtcNow
+                    Timestamp = DateTime.Now
                 });
                 await _db.SaveChangesAsync();
 
