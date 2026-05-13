@@ -1,6 +1,16 @@
 [
   {
     "ContainingType": "SmartLockSystem.Controllers.SmartLockController",
+    "Method": "GetAccessLogs",
+    "RelativePath": "api/SmartLock/access-logs",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "SmartLockSystem.Controllers.SmartLockController",
     "Method": "SendCommand",
     "RelativePath": "api/SmartLock/Command",
     "HttpMethod": "POST",
@@ -13,6 +23,16 @@
         "IsRequired": true
       }
     ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "SmartLockSystem.Controllers.SmartLockController",
+    "Method": "GetUsers",
+    "RelativePath": "api/SmartLock/users",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
     "ReturnTypes": []
   },
   {

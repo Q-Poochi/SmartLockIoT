@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>App Settings - Cyber-Glassmorphism</title>
+<!-- Google Fonts -->
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@500;700&amp;family=Sora:wght@400;600;700&amp;display=swap" rel="stylesheet"/>
+<!-- Material Symbols -->
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<!-- Tailwind CSS -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<!-- Tailwind Config -->
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "surface-container": "#1e1f25",
+                        "background": "#121318",
+                        "on-secondary-fixed": "#022100",
+                        "surface-container-low": "#1a1b21",
+                        "on-primary-fixed": "#002022",
+                        "tertiary-fixed-dim": "#d1bcff",
+                        "on-tertiary-fixed-variant": "#5700c9",
+                        "secondary-fixed-dim": "#2ae500",
+                        "on-surface-variant": "#b9cacb",
+                        "on-primary-fixed-variant": "#004f53",
+                        "error": "#ffb4ab",
+                        "surface-variant": "#34343a",
+                        "surface-tint": "#00dce6",
+                        "on-secondary-fixed-variant": "#095300",
+                        "surface-dim": "#121318",
+                        "on-surface": "#e3e1e9",
+                        "on-secondary": "#053900",
+                        "on-primary": "#00373a",
+                        "surface-container-highest": "#34343a",
+                        "surface-bright": "#38393f",
+                        "on-tertiary-container": "#741bff",
+                        "on-tertiary-fixed": "#23005b",
+                        "outline-variant": "#3a494b",
+                        "on-primary-container": "#006b71",
+                        "surface-container-high": "#292a2f",
+                        "secondary-container": "#2ff801",
+                        "on-error-container": "#ffdad6",
+                        "on-tertiary": "#3c0090",
+                        "surface-container-lowest": "#0d0e13",
+                        "primary": "#e3fdff",
+                        "surface": "#121318",
+                        "tertiary-container": "#e4d5ff",
+                        "tertiary": "#fdf6ff",
+                        "secondary": "#d7ffc5",
+                        "on-error": "#690005",
+                        "secondary-fixed": "#79ff5b",
+                        "primary-container": "#00f3ff",
+                        "inverse-primary": "#00696f",
+                        "inverse-on-surface": "#2f3036",
+                        "tertiary-fixed": "#e9ddff",
+                        "primary-fixed": "#6ff6ff",
+                        "on-background": "#e3e1e9",
+                        "error-container": "#93000a",
+                        "inverse-surface": "#e3e1e9",
+                        "primary-fixed-dim": "#00dce6",
+                        "outline": "#849495",
+                        "on-secondary-container": "#0f6d00"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "xl": "32px",
+                        "sm": "8px",
+                        "xs": "4px",
+                        "md": "16px",
+                        "gutter-mobile": "12px",
+                        "margin-mobile": "20px",
+                        "lg": "24px",
+                        "base": "4px"
+                    },
+                    "fontFamily": {
+                        "headline-md": ["Sora"],
+                        "body-lg": ["Sora"],
+                        "data-display": ["JetBrains Mono"],
+                        "body-sm": ["Sora"],
+                        "headline-lg": ["Sora"],
+                        "status-mono": ["JetBrains Mono"]
+                    },
+                    "fontSize": {
+                        "headline-md": ["24px", { "lineHeight": "32px", "letterSpacing": "-0.01em", "fontWeight": "600" }],
+                        "body-lg": ["16px", { "lineHeight": "24px", "letterSpacing": "0", "fontWeight": "400" }],
+                        "data-display": ["18px", { "lineHeight": "24px", "letterSpacing": "0.1em", "fontWeight": "700" }],
+                        "body-sm": ["14px", { "lineHeight": "20px", "letterSpacing": "0", "fontWeight": "400" }],
+                        "headline-lg": ["32px", { "lineHeight": "40px", "letterSpacing": "-0.02em", "fontWeight": "700" }],
+                        "status-mono": ["12px", { "lineHeight": "16px", "letterSpacing": "0.05em", "fontWeight": "500" }]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background text-on-background min-h-screen antialiased selection:bg-primary-container/30 selection:text-primary">
+<!-- TopAppBar -->
+<header class="fixed top-0 w-full z-50 flex items-center justify-between px-margin-mobile h-16 bg-background/80 backdrop-blur-xl border-b border-outline-variant/30 shadow-[0_0_15px_rgba(0,220,230,0.1)]">
+<button class="text-on-surface-variant hover:text-primary transition-colors active:scale-95 duration-200">
+<span class="material-symbols-outlined">menu</span>
+</button>
+<h1 class="font-headline-md text-headline-md font-bold tracking-tighter text-primary">HOME SECURITY</h1>
+<button class="text-on-surface-variant hover:text-primary transition-colors active:scale-95 duration-200">
+<span class="material-symbols-outlined">account_circle</span>
+</button>
+</header>
+<!-- Main Canvas -->
+<main class="pt-[104px] pb-[100px] px-margin-mobile max-w-2xl mx-auto flex flex-col gap-xl">
+<!-- Page Title -->
+<div>
+<h2 class="font-headline-lg text-headline-lg text-on-surface">APP SETTINGS</h2>
+<p class="font-body-sm text-body-sm text-on-surface-variant mt-xs">Manage your system preferences and security protocols.</p>
+</div>
+<!-- Security Profile Section -->
+<section class="flex flex-col gap-sm">
+<h3 class="font-data-display text-data-display text-primary uppercase tracking-widest text-[14px]">Security Profile</h3>
+<div class="bg-surface-container/40 backdrop-blur-[20px] border border-outline-variant/30 rounded-xl p-md flex items-center gap-md shadow-[inset_0_1px_0_rgba(255,255,255,0.05)]">
+<div class="relative">
+<div class="w-16 h-16 rounded-full overflow-hidden border border-primary/30">
+<img alt="User Avatar" class="w-full h-full object-cover" data-alt="A futuristic, cinematic headshot of a user in a dimly lit, high-tech environment. The lighting features a strong neon cyan rim light illuminating the subject's face against an abyssal black background. The overall aesthetic is cyberpunk minimalism, conveying a sense of secure, authorized access." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAKOyy8JQnDS_cC1PhPCsukRUL1SE5Xy8Ku5h_Lq279ALoAenFQuL3dOf0gZe9Gfb87Drm-y8DwrZ_wGC01ZD2Tea4vNPE6S8W5wkT5F_GnJfQ3Sg94eZNvuBRwSgmk2ZCTQOYBdo3tlz9f7IoflRTlGfIvO0IFTofvNnOyAMeIRpnC7RZHOrzABCUBqFiX-CaxNeUKkSYL2vMfmOgR3Iy_c6zGDCJUhcDzuqo-IBifRcDIRBVf1S_8M5jKmKWECUmtf0KeUPlzxaxU"/>
+</div>
+<div class="absolute -bottom-1 -right-1 w-4 h-4 bg-secondary-container rounded-full border-2 border-surface-container shadow-[0_0_10px_#2ff801]"></div>
+</div>
+<div class="flex-1">
+<h4 class="font-headline-md text-[18px] leading-tight text-on-surface">System Admin</h4>
+<p class="font-status-mono text-status-mono text-on-surface-variant mt-1">ID: 8492-AX-C</p>
+</div>
+<div class="flex items-center gap-1 border border-secondary-container/50 bg-secondary-container/10 px-3 py-1.5 rounded-full shadow-[0_0_15px_rgba(47,248,1,0.15)]">
+<span class="material-symbols-outlined text-[14px] text-secondary-container" style="font-variation-settings: 'FILL' 1;">verified</span>
+<span class="font-status-mono text-status-mono text-secondary-container">VERIFIED</span>
+</div>
+</div>
+</section>
+<!-- Notifications Section -->
+<section class="flex flex-col gap-sm">
+<h3 class="font-data-display text-data-display text-primary uppercase tracking-widest text-[14px]">Notifications</h3>
+<div class="bg-surface-container/40 backdrop-blur-[20px] border border-outline-variant/30 rounded-xl flex flex-col shadow-[inset_0_1px_0_rgba(255,255,255,0.05)] overflow-hidden">
+<!-- Toggle Item 1 -->
+<label class="flex items-center justify-between p-md border-b border-outline-variant/20 cursor-pointer hover:bg-surface-bright/20 transition-colors">
+<div class="flex flex-col">
+<span class="font-body-lg text-body-lg text-on-surface">Critical Breach Alerts</span>
+<span class="font-body-sm text-body-sm text-on-surface-variant">Immediate push notifications</span>
+</div>
+<div class="relative inline-flex items-center">
+<input checked="" class="sr-only peer" type="checkbox"/>
+<div class="w-11 h-6 bg-surface-variant rounded-full peer-checked:bg-primary/20 border border-outline-variant/50 peer-checked:border-primary/50 transition-colors"></div>
+<div class="absolute left-1 top-1 bg-on-surface w-4 h-4 rounded-full transition-transform peer-checked:translate-x-5 peer-checked:bg-primary-container peer-checked:shadow-[0_0_12px_#00F3FF]"></div>
+</div>
+</label>
+<!-- Toggle Item 2 -->
+<label class="flex items-center justify-between p-md border-b border-outline-variant/20 cursor-pointer hover:bg-surface-bright/20 transition-colors">
+<div class="flex flex-col">
+<span class="font-body-lg text-body-lg text-on-surface">Environmental Sensors</span>
+<span class="font-body-sm text-body-sm text-on-surface-variant">Smoke, CO, and water leaks</span>
+</div>
+<div class="relative inline-flex items-center">
+<input checked="" class="sr-only peer" type="checkbox"/>
+<div class="w-11 h-6 bg-surface-variant rounded-full peer-checked:bg-primary/20 border border-outline-variant/50 peer-checked:border-primary/50 transition-colors"></div>
+<div class="absolute left-1 top-1 bg-on-surface w-4 h-4 rounded-full transition-transform peer-checked:translate-x-5 peer-checked:bg-primary-container peer-checked:shadow-[0_0_12px_#00F3FF]"></div>
+</div>
+</label>
+<!-- Toggle Item 3 -->
+<label class="flex items-center justify-between p-md cursor-pointer hover:bg-surface-bright/20 transition-colors">
+<div class="flex flex-col">
+<span class="font-body-lg text-body-lg text-on-surface">Routine Telemetry</span>
+<span class="font-body-sm text-body-sm text-on-surface-variant">Daily status digests</span>
+</div>
+<div class="relative inline-flex items-center">
+<input class="sr-only peer" type="checkbox"/>
+<div class="w-11 h-6 bg-surface-variant rounded-full peer-checked:bg-primary/20 border border-outline-variant/50 peer-checked:border-primary/50 transition-colors"></div>
+<div class="absolute left-1 top-1 bg-on-surface w-4 h-4 rounded-full transition-transform peer-checked:translate-x-5 peer-checked:bg-primary-container peer-checked:shadow-[0_0_12px_#00F3FF]"></div>
+</div>
+</label>
+</div>
+</section>
+<!-- Connected Hubs Section -->
+<section class="flex flex-col gap-sm">
+<h3 class="font-data-display text-data-display text-primary uppercase tracking-widest text-[14px]">Connected Hubs</h3>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-md">
+<!-- Hub Card 1 -->
+<div class="bg-surface-container/40 backdrop-blur-[20px] border border-outline-variant/30 rounded-xl p-md flex flex-col gap-sm relative overflow-hidden group hover:border-primary/40 transition-colors">
+<div class="absolute top-0 left-0 w-full h-[1px] bg-gradient-to-r from-primary-container/0 via-primary-container/50 to-primary-container/0 opacity-50"></div>
+<div class="flex justify-between items-start">
+<span class="material-symbols-outlined text-[28px] text-primary" style="font-variation-settings: 'FILL' 0;">router</span>
+<div class="flex items-center gap-2">
+<span class="w-2 h-2 rounded-full bg-secondary-container shadow-[0_0_8px_#2ff801]"></span>
+<span class="font-status-mono text-[10px] text-secondary-container uppercase tracking-wider">Online</span>
+</div>
+</div>
+<div>
+<h4 class="font-body-lg text-body-lg text-on-surface font-semibold">Core Command Hub</h4>
+<p class="font-status-mono text-status-mono text-on-surface-variant mt-1">IP: 192.168.1.1</p>
+</div>
+</div>
+<!-- Hub Card 2 -->
+<div class="bg-surface-container/40 backdrop-blur-[20px] border border-outline-variant/30 rounded-xl p-md flex flex-col gap-sm relative overflow-hidden group hover:border-primary/40 transition-colors">
+<div class="flex justify-between items-start">
+<span class="material-symbols-outlined text-[28px] text-on-surface-variant" style="font-variation-settings: 'FILL' 0;">router</span>
+<div class="flex items-center gap-2">
+<span class="w-2 h-2 rounded-full bg-surface-variant border border-outline-variant/50"></span>
+<span class="font-status-mono text-[10px] text-on-surface-variant uppercase tracking-wider">Standby</span>
+</div>
+</div>
+<div>
+<h4 class="font-body-lg text-body-lg text-on-surface font-semibold">Perimeter Relay</h4>
+<p class="font-status-mono text-status-mono text-on-surface-variant mt-1">IP: 192.168.1.14</p>
+</div>
+</div>
+</div>
+</section>
+<!-- App Theme Section (Slider Example) -->
+<section class="flex flex-col gap-sm">
+<h3 class="font-data-display text-data-display text-primary uppercase tracking-widest text-[14px]">Interface Intensity</h3>
+<div class="bg-surface-container/40 backdrop-blur-[20px] border border-outline-variant/30 rounded-xl p-md flex flex-col gap-lg shadow-[inset_0_1px_0_rgba(255,255,255,0.05)]">
+<div class="flex justify-between items-center">
+<span class="material-symbols-outlined text-on-surface-variant">brightness_low</span>
+<span class="font-status-mono text-status-mono text-primary-fixed-dim">CYBER-GLASS</span>
+<span class="material-symbols-outlined text-primary-container shadow-[0_0_15px_rgba(0,243,255,0.2)] rounded-full">brightness_high</span>
+</div>
+<!-- Custom Glass Slider -->
+<div class="relative w-full h-1 bg-surface-highest rounded-full">
+<div class="absolute left-0 top-0 h-full bg-primary-container/40 rounded-full" style="width: 75%;"></div>
+<div class="absolute top-1/2 -translate-y-1/2 w-4 h-4 bg-primary-container rounded-full shadow-[0_0_15px_#00F3FF] cursor-pointer" style="left: 75%;">
+<div class="absolute inset-0 bg-white/50 rounded-full w-1.5 h-1.5 m-auto"></div>
+</div>
+</div>
+</div>
+</section>
+</main>
+<!-- BottomNavBar -->
+<nav class="fixed bottom-0 left-0 w-full z-50 flex justify-around items-center px-4 py-3 pb-safe bg-surface-container-lowest/80 backdrop-blur-2xl border-t border-outline-variant/20 shadow-[0_-4px_20px_rgba(0,0,0,0.5)] rounded-t-xl">
+<a class="flex flex-col items-center justify-center text-on-surface-variant/60 hover:text-primary transition-colors active:scale-90 duration-300" href="/index.html">
+<span class="material-symbols-outlined mb-1 text-[24px]">shield</span>
+<span class="font-status-mono text-status-mono text-[10px]">Security</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant/60 hover:text-primary transition-colors active:scale-90 duration-300" href="/service.html">
+<span class="material-symbols-outlined mb-1 text-[24px]">hub</span>
+<span class="font-status-mono text-status-mono text-[10px]">Devices</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant/60 hover:text-primary transition-colors active:scale-90 duration-300" href="/history.html">
+<span class="material-symbols-outlined mb-1 text-[24px]">history</span>
+<span class="font-status-mono text-status-mono text-[10px]">History</span>
+</a>
+<a class="flex flex-col items-center justify-center text-primary-fixed-dim drop-shadow-[0_0_8px_rgba(0,220,230,0.5)] active:scale-90 duration-300" href="/setting.html">
+<span class="material-symbols-outlined mb-1 text-[24px]" style="font-variation-settings: 'FILL' 1;">settings</span>
+<span class="font-status-mono text-status-mono text-[10px] text-primary">Settings</span>
+</a>
+</nav>
+</body></html>

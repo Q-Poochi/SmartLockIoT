@@ -1,2 +1,8 @@
+wwwroot\history.html
+wwwroot\history.md
+wwwroot\index.md
+wwwroot\service.html
+wwwroot\service.md
+wwwroot\setting.html
+wwwroot\setting.md
 wwwroot\index.html
-wwwroot\DESIGN.md

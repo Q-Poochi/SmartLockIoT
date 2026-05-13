@@ -66,6 +66,30 @@
           }
         }
       }
+    },
+    "/api/SmartLock/access-logs": {
+      "get": {
+        "tags": [
+          "SmartLock"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/SmartLock/users": {
+      "get": {
+        "tags": [
+          "SmartLock"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
     }
   },
   "components": {

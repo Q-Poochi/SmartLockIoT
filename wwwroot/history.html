@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>SECURITY LOGS</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700&amp;family=JetBrains+Mono:wght@500;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "surface-container": "#1e1f25",
+                    "background": "#121318",
+                    "on-secondary-fixed": "#022100",
+                    "surface-container-low": "#1a1b21",
+                    "on-primary-fixed": "#002022",
+                    "tertiary-fixed-dim": "#d1bcff",
+                    "on-tertiary-fixed-variant": "#5700c9",
+                    "secondary-fixed-dim": "#2ae500",
+                    "on-surface-variant": "#b9cacb",
+                    "on-primary-fixed-variant": "#004f53",
+                    "error": "#ffb4ab",
+                    "surface-variant": "#34343a",
+                    "surface-tint": "#00dce6",
+                    "on-secondary-fixed-variant": "#095300",
+                    "surface-dim": "#121318",
+                    "on-surface": "#e3e1e9",
+                    "on-secondary": "#053900",
+                    "on-primary": "#00373a",
+                    "surface-container-highest": "#34343a",
+                    "surface-bright": "#38393f",
+                    "on-tertiary-container": "#741bff",
+                    "on-tertiary-fixed": "#23005b",
+                    "outline-variant": "#3a494b",
+                    "on-primary-container": "#006b71",
+                    "surface-container-high": "#292a2f",
+                    "secondary-container": "#2ff801",
+                    "on-error-container": "#ffdad6",
+                    "on-tertiary": "#3c0090",
+                    "surface-container-lowest": "#0d0e13",
+                    "primary": "#e3fdff",
+                    "surface": "#121318",
+                    "tertiary-container": "#e4d5ff",
+                    "tertiary": "#fdf6ff",
+                    "secondary": "#d7ffc5",
+                    "on-error": "#690005",
+                    "secondary-fixed": "#79ff5b",
+                    "primary-container": "#00f3ff",
+                    "inverse-primary": "#00696f",
+                    "inverse-on-surface": "#2f3036",
+                    "tertiary-fixed": "#e9ddff",
+                    "primary-fixed": "#6ff6ff",
+                    "on-background": "#e3e1e9",
+                    "error-container": "#93000a",
+                    "inverse-surface": "#e3e1e9",
+                    "primary-fixed-dim": "#00dce6",
+                    "outline": "#849495",
+                    "on-secondary-container": "#0f6d00"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.25rem",
+                    "lg": "0.5rem",
+                    "xl": "0.75rem",
+                    "full": "9999px"
+            },
+            "spacing": {
+                    "xl": "32px",
+                    "sm": "8px",
+                    "xs": "4px",
+                    "md": "16px",
+                    "gutter-mobile": "12px",
+                    "margin-mobile": "20px",
+                    "lg": "24px",
+                    "base": "4px"
+            },
+            "fontFamily": {
+                    "headline-md": [
+                            "Sora"
+                    ],
+                    "body-lg": [
+                            "Sora"
+                    ],
+                    "data-display": [
+                            "JetBrains Mono"
+                    ],
+                    "body-sm": [
+                            "Sora"
+                    ],
+                    "headline-lg": [
+                            "Sora"
+                    ],
+                    "status-mono": [
+                            "JetBrains Mono"
+                    ]
+            },
+            "fontSize": {
+                    "headline-md": [
+                            "24px",
+                            {
+                                    "lineHeight": "32px",
+                                    "letterSpacing": "-0.01em",
+                                    "fontWeight": "600"
+                            }
+                    ],
+                    "body-lg": [
+                            "16px",
+                            {
+                                    "lineHeight": "24px",
+                                    "letterSpacing": "0",
+                                    "fontWeight": "400"
+                            }
+                    ],
+                    "data-display": [
+                            "18px",
+                            {
+                                    "lineHeight": "24px",
+                                    "letterSpacing": "0.1em",
+                                    "fontWeight": "700"
+                            }
+                    ],
+                    "body-sm": [
+                            "14px",
+                            {
+                                    "lineHeight": "20px",
+                                    "letterSpacing": "0",
+                                    "fontWeight": "400"
+                            }
+                    ],
+                    "headline-lg": [
+                            "32px",
+                            {
+                                    "lineHeight": "40px",
+                                    "letterSpacing": "-0.02em",
+                                    "fontWeight": "700"
+                            }
+                    ],
+                    "status-mono": [
+                            "12px",
+                            {
+                                    "lineHeight": "16px",
+                                    "letterSpacing": "0.05em",
+                                    "fontWeight": "500"
+                            }
+                    ]
+            }
+    },
+        },
+      }
+    </script>
+<style>
+        .glass-card {
+            background-color: rgba(26, 27, 33, 0.4);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(132, 148, 149, 0.2);
+            border-top-color: rgba(132, 148, 149, 0.4);
+            border-left-color: rgba(132, 148, 149, 0.4);
+        }
+        .glow-cyan {
+            box-shadow: 0 0 20px rgba(0, 243, 255, 0.2);
+        }
+        .glow-green {
+            box-shadow: 0 0 20px rgba(47, 248, 1, 0.2);
+        }
+        .text-glow-cyan {
+            text-shadow: 0 0 10px rgba(0, 243, 255, 0.5);
+        }
+        .text-glow-green {
+            text-shadow: 0 0 10px rgba(47, 248, 1, 0.5);
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background text-on-background min-h-screen font-body-lg antialiased pt-16 pb-24">
+<!-- TopAppBar -->
+<header class="fixed top-0 w-full bg-background/80 backdrop-blur-xl border-b border-outline-variant/30 shadow-[0_0_15px_rgba(0,220,230,0.1)] flex items-center justify-between px-margin-mobile h-16 z-50">
+<button class="text-primary hover:opacity-80 transition-opacity active:scale-95 duration-200">
+<span class="material-symbols-outlined" data-icon="menu">menu</span>
+</button>
+<h1 class="font-headline-md text-headline-md font-bold tracking-tighter text-primary">HOME SECURITY</h1>
+<button class="text-primary hover:opacity-80 transition-opacity active:scale-95 duration-200">
+<span class="material-symbols-outlined" data-icon="account_circle">account_circle</span>
+</button>
+</header>
+<main class="px-margin-mobile max-w-3xl mx-auto py-xl">
+<!-- Header -->
+<div class="mb-lg flex flex-col gap-sm">
+<h2 class="font-headline-lg text-headline-lg text-on-surface">SECURITY LOGS</h2>
+<div class="flex items-center gap-md">
+<span class="font-status-mono text-status-mono text-primary-fixed-dim bg-primary-container/10 px-sm py-xs rounded border border-primary-container/30">SYSTEM ONLINE</span>
+<span class="font-status-mono text-status-mono text-on-surface-variant">LAST 24 HOURS</span>
+</div>
+</div>
+<!-- Filters (Simulated) -->
+<div class="flex gap-sm mb-xl overflow-x-auto pb-sm no-scrollbar">
+<button class="px-md py-sm rounded-full glass-card text-primary font-status-mono text-status-mono glow-cyan border-primary-container border-opacity-50 whitespace-nowrap">ALL EVENTS</button>
+<button class="px-md py-sm rounded-full glass-card text-on-surface-variant font-status-mono text-status-mono hover:text-on-surface transition-colors whitespace-nowrap">ACCESS</button>
+<button class="px-md py-sm rounded-full glass-card text-on-surface-variant font-status-mono text-status-mono hover:text-on-surface transition-colors whitespace-nowrap">MOTION</button>
+<button class="px-md py-sm rounded-full glass-card text-on-surface-variant font-status-mono text-status-mono hover:text-on-surface transition-colors whitespace-nowrap">ALERTS</button>
+</div>
+<!-- Log List (Dynamic from API) -->
+<div id="logList" class="flex flex-col gap-sm">
+<div class="text-center py-xl text-on-surface-variant font-status-mono text-status-mono">Loading security logs...</div>
+</div>
+</main>
+<!-- BottomNavBar -->
+<nav class="fixed bottom-0 left-0 w-full z-50 flex justify-around items-center px-4 py-3 pb-safe bg-surface-container-lowest/80 backdrop-blur-2xl border-t border-outline-variant/20 shadow-[0_-4px_20px_rgba(0,0,0,0.5)] rounded-t-xl">
+<a class="flex flex-col items-center justify-center text-on-surface-variant/60 hover:text-primary transition-colors active:scale-90 duration-300" href="/index.html">
+<span class="material-symbols-outlined" data-icon="shield">shield</span>
+<span class="font-status-mono text-status-mono mt-1">Security</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant/60 hover:text-primary transition-colors active:scale-90 duration-300" href="/service.html">
+<span class="material-symbols-outlined" data-icon="hub">hub</span>
+<span class="font-status-mono text-status-mono mt-1">Devices</span>
+</a>
+<a class="flex flex-col items-center justify-center text-primary-fixed-dim drop-shadow-[0_0_8px_rgba(0,220,230,0.5)] hover:text-primary transition-colors active:scale-90 duration-300" href="/history.html">
+<span class="material-symbols-outlined" data-icon="history" style="font-variation-settings: 'FILL' 1;">history</span>
+<span class="font-status-mono text-status-mono mt-1">History</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant/60 hover:text-primary transition-colors active:scale-90 duration-300" href="/setting.html">
+<span class="material-symbols-outlined" data-icon="settings">settings</span>
+<span class="font-status-mono text-status-mono mt-1">Settings</span>
+</a>
+</nav>
+<script>
+async function loadLogs() {
+    try {
+        const res = await fetch('/api/SmartLock/access-logs');
+        const logs = await res.json();
+        const container = document.getElementById('logList');
+        if (logs.length === 0) {
+            container.innerHTML = '<div class="text-center py-xl text-on-surface-variant font-status-mono">No access logs yet.</div>';
+            return;
+        }
+        container.innerHTML = '';
+        logs.forEach(log => {
+            const d = new Date(log.timestamp);
+            const time = d.toLocaleTimeString('vi-VN', {hour:'2-digit', minute:'2-digit'});
+            const icon = log.isSuccess ? 'lock_open' : 'warning';
+            const iconBg = log.isSuccess ? 'bg-secondary-container/10 border-secondary-container/30' : 'bg-error-container/20 border-error/50';
+            const iconColor = log.isSuccess ? 'text-secondary-container' : 'text-error';
+            const titleColor = log.isSuccess ? 'text-on-surface' : 'text-error';
+            const glow = log.isSuccess ? 'glow-green' : 'shadow-[0_0_15px_rgba(255,180,171,0.2)]';
+            const cardExtra = log.isSuccess ? '' : 'border-error/30 bg-error-container/5';
+            container.innerHTML += `
+                <div class="glass-card rounded-lg p-md flex items-start gap-md group ${cardExtra}">
+                    <div class="flex flex-col items-center gap-xs w-16 shrink-0">
+                        <span class="font-data-display text-data-display text-on-surface">${time}</span>
+                        <span class="font-status-mono text-[10px] text-on-surface-variant">TODAY</span>
+                    </div>
+                    <div class="w-10 h-10 rounded-full ${iconBg} flex items-center justify-center shrink-0 ${glow}">
+                        <span class="material-symbols-outlined ${iconColor}">${icon}</span>
+                    </div>
+                    <div class="flex-1 min-w-0">
+                        <h3 class="font-body-lg text-body-lg ${titleColor} truncate">${log.message || 'Access Event'}</h3>
+                        <p class="font-body-sm text-body-sm text-on-surface-variant truncate">Method: ${log.accessType} | Code: ${log.accessCode}</p>
+                    </div>
+                </div>`;
+        });
+    } catch (e) { console.error('Failed to load logs:', e); }
+}
+loadLogs();
+setInterval(loadLogs, 10000);
+</script>
+</body></html>
