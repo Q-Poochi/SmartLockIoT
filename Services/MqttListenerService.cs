@@ -3,12 +3,13 @@ using MQTTnet;
 using MQTTnet.Client;
 using SmartLockSystem.Data;
 using SmartLockSystem.Models;
+using System.Text.Json;
 
 namespace SmartLockSystem.Services;
 
 /// <summary>
 /// Dịch vụ chạy nền: Lắng nghe MQTT topic "face_verify" từ Python.
-/// Khi Python nhận diện được mặt → gửi tên lên MQTT → C# nhận → Check DB → Mở cửa.
+/// Khi Python nhận diện được mặt → gửi JSON lên MQTT → C# parse → Check DB → Mở cửa.
 /// </summary>
 public class MqttListenerService : BackgroundService
 {
@@ -70,7 +71,7 @@ public class MqttListenerService : BackgroundService
                     await _mqttClient.ConnectAsync(options, stoppingToken);
                     Console.WriteLine("[MQTT Listener] ✅ Connected!");
 
-                    // Subscribe topic "face_verify" - Python sẽ gửi tên khuôn mặt vào đây
+                    // Subscribe topic "face_verify"
                     await _mqttClient.SubscribeAsync(new MqttTopicFilterBuilder()
                         .WithTopic("face_verify")
                         .Build(), stoppingToken);
@@ -83,73 +84,142 @@ public class MqttListenerService : BackgroundService
                 Console.WriteLine($"[MQTT Listener] ❌ Lỗi: {ex.Message}");
             }
 
-            await Task.Delay(5000, stoppingToken); // Retry mỗi 5 giây nếu mất kết nối
+            await Task.Delay(5000, stoppingToken);
         }
     }
 
     /// <summary>
-    /// Xử lý khi nhận được tên khuôn mặt từ Python.
-    /// VD: Python gửi "Jun" → Check DB → Nếu có → Gửi "unlock" tới ESP32
+    /// Parse JSON từ Python và xử lý xác thực.
+    /// Python gửi: {"face_code": "FACE_ID_JUN", "username": "Jun", "confidence": 0.56, "is_match": true, ...}
     /// </summary>
-    private async Task HandleFaceVerify(string faceName)
+    private async Task HandleFaceVerify(string payload)
     {
-        // Tạo scope mới để dùng DbContext (vì BackgroundService là Singleton)
+        try
+        {
+            // Parse JSON từ Python
+            var json = JsonDocument.Parse(payload);
+            var root = json.RootElement;
+
+            var faceCode = root.GetProperty("face_code").GetString() ?? "";
+            var username = root.GetProperty("username").GetString() ?? "";
+            var confidence = root.GetProperty("confidence").GetDouble();
+            var isMatch = root.GetProperty("is_match").GetBoolean();
+
+            Console.WriteLine($"[FACE DATA] Tên: {username} | Mã: {faceCode} | Độ tin cậy: {confidence:P1} | Match: {isMatch}");
+
+            // Nếu Python báo không match → từ chối luôn
+            if (!isMatch)
+            {
+                Console.WriteLine($"[FACE FAIL] ❌ Python báo không khớp: {username}");
+                await LogAccess(faceCode, "FaceID", false, $"Khuôn mặt không khớp: {username} (confidence: {confidence:P1})");
+                await SendFaceResult($"DENIED|{username}|NOT_MATCH");
+                return;
+            }
+
+            // Tìm user trong Database bằng username
+            using var scope = _serviceProvider.CreateScope();
+            var db = scope.ServiceProvider.GetRequiredService<SmartLockDbContext>();
+
+            var user = await db.Users
+                .FirstOrDefaultAsync(u => u.AccessCode == username && u.IsActive);
+
+            if (user != null)
+            {
+                Console.WriteLine($"[FACE OK] ✅ Xác nhận: {user.FullName} (confidence: {confidence:P1}) → MỞ CỬA!");
+
+                // 1. Gửi MQTT mở cửa
+                var unlockReq = new LockCommandRequest { DeviceId = "test_door", Unlock = true };
+                await _smartLockService.SendLockCommandAsync(unlockReq);
+
+                // 2. Ghi lịch sử
+                db.AccessLogs.Add(new AccessLog
+                {
+                    AccessCode = username,
+                    AccessType = "FaceID",
+                    IsSuccess = true,
+                    Message = $"{user.FullName} đã mở cửa (confidence: {confidence:P1})",
+                    UserId = user.Id,
+                    DeviceId = 1,
+                    Timestamp = DateTime.UtcNow
+                });
+                await db.SaveChangesAsync();
+
+                // 3. Phản hồi Python
+                await SendFaceResult($"OK|{user.FullName}|UNLOCKED");
+            }
+            else
+            {
+                Console.WriteLine($"[FACE FAIL] ❌ Không có trong DB: {username}");
+
+                // Ghi log truy cập trái phép
+                await LogAccess(username, "FaceID", false, $"Người dùng không có trong hệ thống: {username}");
+                await SendFaceResult($"DENIED|{username}|NOT_IN_DB");
+            }
+        }
+        catch (JsonException ex)
+        {
+            Console.WriteLine($"[PARSE ERROR] Payload không phải JSON hợp lệ: {ex.Message}");
+            // Fallback: thử xử lý như text thuần (tên khuôn mặt)
+            await HandlePlainTextVerify(payload);
+        }
+    }
+
+    /// <summary>
+    /// Fallback: xử lý nếu Python gửi text thuần (VD: chỉ gửi "Jun")
+    /// </summary>
+    private async Task HandlePlainTextVerify(string faceName)
+    {
         using var scope = _serviceProvider.CreateScope();
         var db = scope.ServiceProvider.GetRequiredService<SmartLockDbContext>();
 
-        // Tìm user trong Database bằng AccessCode = tên khuôn mặt
         var user = await db.Users
             .FirstOrDefaultAsync(u => u.AccessCode == faceName && u.IsActive);
 
         if (user != null)
         {
-            Console.WriteLine($"[FACE OK] ✅ Xác nhận: {user.FullName} → MỞ CỬA!");
+            Console.WriteLine($"[FACE OK] ✅ {user.FullName} → MỞ CỬA!");
+            await _smartLockService.SendLockCommandAsync(
+                new LockCommandRequest { DeviceId = "test_door", Unlock = true });
 
-            // 1. Gửi MQTT mở cửa
-            var unlockReq = new LockCommandRequest { DeviceId = "test_door", Unlock = true };
-            await _smartLockService.SendLockCommandAsync(unlockReq);
-
-            // 2. Ghi lịch sử vào Database
             db.AccessLogs.Add(new AccessLog
             {
-                AccessCode = faceName,
-                AccessType = "FaceID",
-                IsSuccess = true,
+                AccessCode = faceName, AccessType = "FaceID", IsSuccess = true,
                 Message = $"{user.FullName} đã mở cửa thành công",
-                UserId = user.Id,
-                DeviceId = 1,
-                Timestamp = DateTime.UtcNow
+                UserId = user.Id, DeviceId = 1, Timestamp = DateTime.UtcNow
             });
             await db.SaveChangesAsync();
-
-            // 3. Gửi phản hồi về Python qua MQTT (optional)
-            var responseMsg = new MqttApplicationMessageBuilder()
-                .WithTopic("face_result")
-                .WithPayload($"OK|{user.FullName}")
-                .Build();
-            await _mqttClient.PublishAsync(responseMsg);
+            await SendFaceResult($"OK|{user.FullName}");
         }
         else
         {
             Console.WriteLine($"[FACE FAIL] ❌ Không tìm thấy: {faceName}");
+            await LogAccess(faceName, "FaceID", false, $"Khuôn mặt không xác định: {faceName}");
+            await SendFaceResult($"DENIED|{faceName}");
+        }
+    }
 
-            // Ghi lại truy cập trái phép
-            db.AccessLogs.Add(new AccessLog
-            {
-                AccessCode = faceName,
-                AccessType = "FaceID",
-                IsSuccess = false,
-                Message = $"Khuôn mặt không xác định: {faceName}",
-                Timestamp = DateTime.UtcNow
-            });
-            await db.SaveChangesAsync();
+    private async Task LogAccess(string code, string type, bool success, string message)
+    {
+        using var scope = _serviceProvider.CreateScope();
+        var db = scope.ServiceProvider.GetRequiredService<SmartLockDbContext>();
+        db.AccessLogs.Add(new AccessLog
+        {
+            AccessCode = code, AccessType = type, IsSuccess = success,
+            Message = message, Timestamp = DateTime.UtcNow
+        });
+        await db.SaveChangesAsync();
+    }
 
-            // Gửi phản hồi từ chối
-            var responseMsg = new MqttApplicationMessageBuilder()
+    private async Task SendFaceResult(string result)
+    {
+        if (_mqttClient.IsConnected)
+        {
+            var msg = new MqttApplicationMessageBuilder()
                 .WithTopic("face_result")
-                .WithPayload($"DENIED|{faceName}")
+                .WithPayload(result)
                 .Build();
-            await _mqttClient.PublishAsync(responseMsg);
+            await _mqttClient.PublishAsync(msg);
+            Console.WriteLine($"[MQTT GỬI] face_result: {result}");
         }
     }
 }
