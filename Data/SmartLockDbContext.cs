@@ -21,13 +21,13 @@ public class SmartLockDbContext : DbContext
     {
         base.OnModelCreating(modelBuilder);
 
-        // Seed data mẫu: 2 user VIP mặc định (thay thế cái List hardcode cũ)
+        // Seed data: Users thật từ hệ thống Python Face Recognition
         modelBuilder.Entity<Models.User>().HasData(
             new Models.User
             {
                 Id = 1,
-                FullName = "Boss Nguyễn",
-                AccessCode = "FACE_ID_BOSS",
+                FullName = "Jun",
+                AccessCode = "Jun",
                 AccessType = "FaceID",
                 IsActive = true,
                 CreatedAt = new DateTime(2026, 1, 1)
@@ -35,9 +35,18 @@ public class SmartLockDbContext : DbContext
             new Models.User
             {
                 Id = 2,
-                FullName = "Nhân viên VIP",
-                AccessCode = "VIP_USER_QR_001",
-                AccessType = "QR",
+                FullName = "Phuong",
+                AccessCode = "Phuong",
+                AccessType = "FaceID",
+                IsActive = true,
+                CreatedAt = new DateTime(2026, 1, 1)
+            },
+            new Models.User
+            {
+                Id = 3,
+                FullName = "Quan",
+                AccessCode = "Quan",
+                AccessType = "FaceID",
                 IsActive = true,
                 CreatedAt = new DateTime(2026, 1, 1)
             }

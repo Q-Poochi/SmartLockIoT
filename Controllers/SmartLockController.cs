@@ -45,7 +45,7 @@ namespace SmartLockSystem.Controllers
             if (user != null)
             {
                 // 1. Nhận diện đúng người -> Bắn MQTT mở cửa
-                var unlockReq = new LockCommandRequest { DeviceId = "esp32/led", Unlock = true };
+                var unlockReq = new LockCommandRequest { DeviceId = "test_door", Unlock = true };
                 await _smartLockService.SendLockCommandAsync(unlockReq);
 
                 // 2. GHI VÀO SỔ LỊCH SỬ (AccessLog) - "Ai vào lúc mấy giờ"

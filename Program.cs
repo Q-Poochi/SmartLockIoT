@@ -13,6 +13,7 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddSingleton<ISmartLockService, SmartLockService>();
+builder.Services.AddHostedService<MqttListenerService>();
 
 // Đăng ký Database SQL Server (Docker)
 builder.Services.AddDbContext<SmartLockDbContext>(options =>

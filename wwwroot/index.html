@@ -265,34 +265,45 @@
 </a>
 </nav>
 <script>
+let isLocked = true;
 document.getElementById('btnUnlock').addEventListener('click', async function() {
     const lockIcon = this.querySelector('.material-symbols-outlined');
     const btnText = this.querySelector('.font-data-display');
     const statusText = document.getElementById('statusText');
-    btnText.innerText = 'OPENING...';
+    const btn = this;
+
+    // Hiển thị trạng thái đang xử lý
+    btnText.innerText = isLocked ? 'OPENING...' : 'LOCKING...';
+    btn.style.pointerEvents = 'none'; // chặn spam click
+
     try {
         const res = await fetch('/api/SmartLock/command', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ deviceId: 'esp32/led', unlock: true })
+            body: JSON.stringify({ deviceId: 'test_door', unlock: isLocked })
         });
         if (res.ok) {
-            lockIcon.innerText = 'lock_open';
-            btnText.innerText = 'UNLOCKED';
-            statusText.innerText = 'UNLOCKED';
-            statusText.style.color = '#00f3ff';
-            this.style.borderColor = 'rgba(0, 243, 255, 0.8)';
-            this.style.boxShadow = '0 0 60px rgba(0, 243, 255, 0.4)';
-            setTimeout(() => {
+            if (isLocked) {
+                // Chuyển sang trạng thái MỞ
+                lockIcon.innerText = 'lock_open';
+                btnText.innerText = 'LOCK';
+                statusText.innerText = 'UNLOCKED';
+                statusText.style.color = '#00f3ff';
+                btn.style.borderColor = 'rgba(0, 243, 255, 0.8)';
+                btn.style.boxShadow = '0 0 60px rgba(0, 243, 255, 0.4)';
+            } else {
+                // Chuyển sang trạng thái KHÓA
                 lockIcon.innerText = 'lock';
                 btnText.innerText = 'UNLOCK';
                 statusText.innerText = 'LOCKED';
                 statusText.style.color = '';
-                this.style.borderColor = '';
-                this.style.boxShadow = '';
-            }, 3000);
+                btn.style.borderColor = '';
+                btn.style.boxShadow = '';
+            }
+            isLocked = !isLocked;
         }
     } catch (e) { alert('API Connection Failed!'); }
+    btn.style.pointerEvents = ''; // mở lại click
 });
 
 async function loadMiniLogs() {

@@ -1,8 +1,6 @@
-﻿using MQTTnet;
+using MQTTnet;
 using MQTTnet.Client;
 using SmartLockSystem.Models;
-
-using SmartLockSystem.Services;
 
 namespace SmartLockSystem.Services;
 
@@ -10,20 +8,29 @@ public class SmartLockService : ISmartLockService
 {
     private readonly IMqttClient _mqttClient;
     private readonly MqttClientOptions _mqttOptions;
+    private readonly IConfiguration _config;
 
-    public SmartLockService()
+    public SmartLockService(IConfiguration configuration)
     {
+        _config = configuration;
         var factory = new MqttFactory();
         _mqttClient = factory.CreateMqttClient();
 
-      
+        // Đọc từ appsettings.json → mục "Mqtt"
+        var host = _config["Mqtt:Host"];
+        var port = int.Parse(_config["Mqtt:Port"] ?? "8883");
+        var username = _config["Mqtt:Username"];
+        var password = _config["Mqtt:Password"];
+
         _mqttOptions = new MqttClientOptionsBuilder()
-            .WithTcpServer("778192bafdb24249954652d9ae05565d.s1.eu.hivemq.cloud", 8883)
-            .WithCredentials("esp32", "Aabc12345") 
-            .WithTlsOptions(o => o.UseTls())      
+            .WithTcpServer(host, port)
+            .WithCredentials(username, password)
+            .WithTlsOptions(o => o.UseTls())
             .WithClientId($"SmartLockApi_{Guid.NewGuid()}")
             .WithCleanSession(true)
             .Build();
+
+        Console.WriteLine($"[MQTT Config] Host={host}, Port={port}, User={username}");
     }
 
     public async Task<bool> SendLockCommandAsync(LockCommandRequest request)
@@ -37,15 +44,15 @@ public class SmartLockService : ISmartLockService
                 Console.WriteLine("[MQTT] Connected Thành Công!");
             }
 
-            // 2. KHÔNG DÙNG JSON NỮA! Chỉ gửi chữ "ON" hoặc "OFF" theo đúng ý Python bên kia.
-            string strPayload = request.Unlock ? "ON" : "OFF";
-
-            // 3. FIX CỨNG TOPIC LÀ "esp32/led/control"
-            string targetTopic = "esp32/led";
+            // Đọc topic và payload từ appsettings.json
+            string targetTopic = _config["Mqtt:Topic"] ?? "test_door";
+            string strPayload = request.Unlock
+                ? (_config["Mqtt:UnlockPayload"] ?? "unlock")
+                : (_config["Mqtt:LockPayload"] ?? "lock");
 
             var applicationMessage = new MqttApplicationMessageBuilder()
                 .WithTopic(targetTopic)
-                .WithPayload(strPayload) 
+                .WithPayload(strPayload)
                 .WithQualityOfServiceLevel(MQTTnet.Protocol.MqttQualityOfServiceLevel.AtLeastOnce)
                 .Build();
 
